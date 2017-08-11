@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://unpkg.com/vue"></script>
+<link rel="stylesheet" href="app.css">
+</head>
+  <body>
+    <div id="app">
+    <h1>{{message}}</h1>
+    <section class="comments">
+    <comment-component
+    v-for="comment in comments"
+    :key="comment.name"
+    :name="comment.name"
+    :photo="comment.photo"
+    :comment="comment.comment"></comment-component>
+
+  </section>​
+  <input v-model="mycomment"
+    v-on:keyup.enter="submit"  placeholder="Type Message In here" />
+
+    </div>
+    <script>
+    const Comment = {
+        template: `
+    <article class="comment">
+      <a class="comment-img" href="#non">
+        <img :src="photo" alt="" width="50" height="50">
+      </a>
+      <div class="comment-body">
+        <div class="text">
+          <p>
+          {{comment}}
+          </p>
+        </div>
+        <p class="attribution">by <a href="#non">{{name}}</a> at 14:23pm, 4th Dec 2010</p>
+      </div>
+    </article>`,
+      props: ['photo', 'comment', 'name']
+    };
+
+    new Vue({
+      el: "#app",
+      data() {
+          return {
+              message: 'Hello World',
+              comments: [{name: 'Erik', comment:'Hey comment!',
+                          photo:'https://static.pexels.com/photos/413444/pexels-photo-413444.jpeg'},
+                          {name: 'Jane', comment:'Hi this is Jane!',
+                          photo:'https://static.pexels.com/photos/37533/studio-portrait-woman-face-37533.jpeg'}
+                        ],
+              mycomment: ''
+          }
+      },
+      components: { 'comment-component': Comment},
+      methods: {
+          submit() {
+            this.comments.push({name: 'Erik', comment: this.mycomment,
+                          photo:'https://static.pexels.com/photos/413444/pexels-photo-413444.jpeg'});
+            this.mycomment= ''
+          }
+      }
+
+    });
+    </script>
+  </body>
+  </html>
